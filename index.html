@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oh Hell Scorekeeper</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-spade"></i> Oh Hell Scorekeeper</h1>
+            <div class="game-controls">
+                <button id="newGameBtn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> New Game
+                </button>
+                <button id="addPlayerBtn" class="btn btn-secondary">
+                    <i class="fas fa-user-plus"></i> Add Player
+                </button>
+            </div>
+        </header>
+
+        <div class="game-setup" id="gameSetup">
+            <div class="setup-card">
+                <h2>Set Up Your Game</h2>
+                <div class="player-input-section">
+                    <label for="playerNameInput">Player Name:</label>
+                    <div class="input-group">
+                        <input type="text" id="playerNameInput" placeholder="Enter player name">
+                        <button id="addPlayerNameBtn" class="btn btn-primary">Add</button>
+                    </div>
+                    <div class="common-names">
+                        <p>Common names:</p>
+                        <div class="name-chips" id="commonNames"></div>
+                    </div>
+                </div>
+                <div class="current-players">
+                    <h3>Current Players:</h3>
+                    <div id="playerList" class="player-list"></div>
+                </div>
+                <div class="setup-buttons">
+                    <button id="setupGameBtn" class="btn btn-primary" disabled>
+                        <i class="fas fa-cog"></i> Setup Game
+                    </button>
+                    <button id="viewLeaderboardBtn" class="btn btn-secondary" style="display: none;">
+                        <i class="fas fa-trophy"></i> View Leaderboard
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-setup-phase" id="gameSetupPhase" style="display: none;">
+            <div class="setup-card">
+                <h2>Arrange Players</h2>
+                <p>Drag and drop to arrange players in the order you want them to play:</p>
+                <div class="player-arrangement">
+                    <div id="arrangedPlayers" class="arranged-players"></div>
+                </div>
+                <div class="setup-buttons">
+                    <button id="confirmOrderBtn" class="btn btn-success">
+                        <i class="fas fa-check"></i> Confirm Order
+                    </button>
+                    <button id="backToSetupBtn" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Setup
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bidding-phase" id="biddingPhase" style="display: none;">
+            <div class="bidding-card">
+                <h2>Round <span id="biddingRoundNumber">1</span> - Trump: <span id="biddingTrumpSuit">♠</span></h2>
+                <div class="bidding-info">
+                    <p>Cards in hand: <span id="cardsInHand">1</span></p>
+                    <p>Player <span id="currentBiddingPlayer">1</span> of <span id="totalPlayers">4</span></p>
+                </div>
+                <div class="bidding-player">
+                    <h3 id="biddingPlayerName">Player Name</h3>
+                    <div class="bidding-options">
+                        <label for="trickBid">How many tricks will you make?</label>
+                        <div class="trick-selector">
+                            <button class="trick-btn" data-tricks="0">0</button>
+                            <button class="trick-btn" data-tricks="1">1</button>
+                            <button class="trick-btn" data-tricks="2">2</button>
+                            <button class="trick-btn" data-tricks="3">3</button>
+                            <button class="trick-btn" data-tricks="4">4</button>
+                            <button class="trick-btn" data-tricks="5">5</button>
+                        </div>
+                        <div class="bidding-restriction" id="biddingRestriction" style="display: none;"></div>
+                    </div>
+                    <button id="confirmBidBtn" class="btn btn-primary" disabled>
+                        <i class="fas fa-check"></i> Confirm Bid
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-board" id="gameBoard" style="display: none;">
+            <div class="game-info">
+                <div class="round-info">
+                    <span class="round-number">Round <span id="currentRound">1</span></span>
+                    <span class="trump-suit">Trump: <span id="trumpSuit">♠</span></span>
+                    <span class="cards-info">Cards: <span id="cardsInHandDisplay">1</span></span>
+                </div>
+                <div class="game-controls">
+                    <button id="nextRoundBtn" class="btn btn-success" disabled>
+                        <i class="fas fa-forward"></i> Next Round
+                    </button>
+                    <button id="decreaseCardsBtn" class="btn btn-info" style="display: none;">
+                        <i class="fas fa-arrow-down"></i> Start Decreasing Cards
+                    </button>
+                    <button id="completeGameBtn" class="btn btn-warning">
+                        <i class="fas fa-flag-checkered"></i> Complete Game
+                    </button>
+                    <button id="viewLeaderboardInGameBtn" class="btn btn-secondary">
+                        <i class="fas fa-trophy"></i> View Leaderboard
+                    </button>
+                </div>
+                <div class="game-info-note">
+                    <small><i class="fas fa-info-circle"></i> Game continues until you click "Complete Game"</small>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="score-table" id="scoreTable">
+                    <thead>
+                        <tr>
+                            <th class="trump-column">Trump: <span id="trumpDisplay">♠</span></th>
+                            <th class="player-columns" id="playerColumns"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Scores are now only shown in the leaderboard -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="round-summary" id="roundSummary" style="display: none;">
+                <h3>Round Summary</h3>
+                <div id="roundResults"></div>
+            </div>
+        </div>
+
+        <div class="final-scores" id="finalScores" style="display: none;">
+            <h2>Final Scores</h2>
+            <div class="leaderboard" id="leaderboard"></div>
+            <div class="final-buttons">
+                <button id="newGameFromFinalBtn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> New Game
+                </button>
+                <button id="viewDetailedLeaderboardBtn" class="btn btn-secondary">
+                    <i class="fas fa-table"></i> View Detailed Leaderboard
+                </button>
+            </div>
+        </div>
+
+        <div class="detailed-leaderboard" id="detailedLeaderboard" style="display: none;">
+            <div class="leaderboard-header">
+                <h2>Detailed Leaderboard</h2>
+                <button id="backToGameBtn" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Game
+                </button>
+            </div>
+            <div class="leaderboard-table-container">
+                <table class="detailed-table" id="detailedTable">
+                    <thead>
+                        <tr id="detailedTableHeaders">
+                            <th>Player</th>
+                            <!-- Round headers will be inserted here by JavaScript -->
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailedTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
