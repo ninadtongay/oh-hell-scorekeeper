@@ -29,7 +29,7 @@ A digital scorekeeper for the Oh Hell card game, built with vanilla HTML, CSS, a
 
 ## Live Demo
 
-[Play the game here!](https://your-netlify-url.netlify.app)
+[Play the game here!](https://ohhellsk.netlify.app/)
 
 ## Technology
 
@@ -49,5 +49,6 @@ open index.html
 ```
 
 ## Contributing
+
 
 Feel free to submit issues and pull requests to improve the scorekeeper!
