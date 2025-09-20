@@ -2,7 +2,7 @@ class OhHellScorekeeper {
     constructor() {
         this.players = [];
         this.currentRound = 1;
-        this.trumpSuits = ['♠', '♥', '♦', '♣'];
+        this.trumpSuits = ['♠', '♦', '♣', '♥'];
         this.currentTrumpIndex = 0;
         this.gameActive = false;
         this.roundData = [];
